@@ -1,5 +1,7 @@
 
 console.log("Iniciando o servidor...");
+
+const cors = require('cors');
 // Imports
 require('dotenv').config();
 const express = require('express');
@@ -10,6 +12,8 @@ const RegisterController = require('./Controller/RegisterController');
 const LoginController = require('./Controller/LoginController');
 
 const app = express();
+
+app.use(cors());
 
 // Config JSON response
 app.use(express.json());
