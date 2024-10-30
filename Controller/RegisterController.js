@@ -38,6 +38,7 @@ class RegisterController {
 
         try {
             await user.save();
+            console.log(user.id)
             res.status(201).json({ msg: 'Usuário criado com sucesso!' });
         } catch (error) {
             console.log(error);
