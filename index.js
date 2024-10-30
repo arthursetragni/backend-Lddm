@@ -21,6 +21,7 @@ app.use(express.json());
 // Models
 const User = require('./models/User');
 const UserController = require('./Controller/UserController');
+const DataController = require('./Controller/DataController');
 
 // Public route
 app.get('/', (req, res) => {
@@ -32,13 +33,20 @@ app.get('/', (req, res) => {
 app.post('/auth/register', RegisterController.registerUser);
 app.post('/auth/login', LoginController.LoginUser);
 
+// Rotas update e delete  OBS: rota privada
+app.post('/user/update/:id', DataController.updateUserById);
+app.delete('/user/:id', DataController.deleteUserById);
+
 // Rotas privadas
 app.get("/user/:id", UserController.checkToken, UserController.getUserById);
 
 // Conexão com o banco de dados
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.net/`)
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.net/`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
     .then(() => {
         console.log("Conectou ao banco de dados");
     })
@@ -46,3 +54,5 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.
 
 // Exporta o app para ser utilizado pelo Vercel
 module.exports = app;
+
+
