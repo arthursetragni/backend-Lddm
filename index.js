@@ -39,7 +39,16 @@ app.delete('/user/:id', DataController.deleteUserById);
 
 // Rotas privadas
 app.get("/user/:id", UserController.checkToken, UserController.getUserById);
-
+// Read teste
+app.get("/user2/:id", async (req,res) =>{
+    const id = req.params.id;
+    // checar se user existe
+    const user = await User.findById(id,'-password');
+    if(!user){
+        return res.status(404).json({msg: 'Usuário não encontrado'});
+    }
+    res.status(200).json({user});
+});
 // Conexão com o banco de dados
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
