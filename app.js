@@ -1,3 +1,5 @@
+
+console.log("Iniciando o servidor...");
 // Imports
 require('dotenv').config();
 const express = require('express');
