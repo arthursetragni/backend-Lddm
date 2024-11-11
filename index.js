@@ -10,6 +10,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const RegisterController = require('./Controller/RegisterController');
 const LoginController = require('./Controller/LoginController');
+const ServicoController = require('./Controller/ServicoController');
+
+const port = process.env.PORT || 3000
+
 
 const app = express();
 
@@ -28,6 +32,8 @@ app.get('/', (req, res) => {
   res.status(200).json({ msg: "Bem-vindo à API" });
   console.log("Bem-vindo à API");
 });
+
+app.post('/servico', ServicoController.criaServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
@@ -61,6 +67,10 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.
     })
     .catch((err) => console.log(err));
 
+app.listen(port, () => {
+    console.log(`Express started on http://localhost:${port}; ` +
+    `press Ctrl-C to terminate.`)
+    })
 // Exporta o app para ser utilizado pelo Vercel
 module.exports = app;
 
