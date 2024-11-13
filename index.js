@@ -61,6 +61,14 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.
     })
     .catch((err) => console.log(err));
 
+
+// // Porta do servidor
+// const PORT = process.env.PORT || 3000; 
+
+// Inicia o servidor localmente
+// app.listen(PORT, () => {
+//     console.log(`Servidor rodando na porta ${PORT}`);
+// });
 // Exporta o app para ser utilizado pelo Vercel
 module.exports = app;
 
