@@ -53,6 +53,21 @@ class ServicoController{
             res.status(500).json({ msg: 'Ocorreu um erro no servidor' });
         }
     }
+
+    static async pegaServico(req, res) {
+        const { id } = req.params.id; // Captura o ID dos parâmetros da rota
+
+        try {
+            const servico = await Servico.findById(id); // Busca o serviço pelo ID
+            if (!servico) {
+                return res.status(404).json({ msg: "Serviço não encontrado" });
+            }
+            res.status(200).json({ msg: "Serviço encontrado", servico });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Ocorreu um erro no servidor.' });
+        }
+    }
 }
 
 module.exports = ServicoController;

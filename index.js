@@ -34,6 +34,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/servico', ServicoController.criaServico);
+app.get('/servico', ServicoController.pegaServicos);
+app.get('/servico/:id', ServicoController.pegaServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
