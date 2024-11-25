@@ -47,6 +47,7 @@ class ServicoController{
         }
 
         try {
+            console.log(servicos);
             res.status(200).json({msg: "Lista de seriviços encontrada", servicos})
         } catch (error) {
             console.log(error);
