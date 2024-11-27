@@ -1,7 +1,7 @@
 const Avaliacao = require('../models/Avaliacao');
 const mongoose = require('mongoose');
 
-class DataController {
+class DataAvaliacaoController {
     // Rota para excluir avaliação
     static async deleteAvaliacaoById(req, res) {
         const id = req.params.id;
