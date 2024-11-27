@@ -6,7 +6,7 @@ const Avaliacao = mongoose.model('Avaliacao',{
     ID_Avaliador: String,
     ID_Serviço: String,
     comentario: {type: String, default: null},
-    nota: {type: Number, default: null},
+    nota: Number,
     data: {type: Date, default: null},
 })
 
