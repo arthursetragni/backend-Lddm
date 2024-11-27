@@ -10,6 +10,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const RegisterController = require('./Controller/RegisterController');
 const LoginController = require('./Controller/LoginController');
+const ServicoController = require('./Controller/ServicoController');
+
+const port = process.env.PORT || 3000
+
 
 const app = express();
 
@@ -28,6 +32,10 @@ app.get('/', (req, res) => {
   res.status(200).json({ msg: "Bem-vindo à API" });
   console.log("Bem-vindo à API");
 });
+
+app.post('/servico', ServicoController.criaServico);
+app.get('/servico', ServicoController.pegaServicos);
+app.get('/servico/:id', ServicoController.pegaServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
