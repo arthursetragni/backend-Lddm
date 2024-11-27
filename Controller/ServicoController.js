@@ -47,7 +47,6 @@ class ServicoController{
         }
 
         try {
-            console.log(servicos);
             res.status(200).json({msg: "Lista de seriviços encontrada", servicos})
         } catch (error) {
             console.log(error);
@@ -56,13 +55,15 @@ class ServicoController{
     }
 
     static async pegaServico(req, res) {
-        const { id } = req.params.id; // Captura o ID dos parâmetros da rota
+        const  id  = req.params.id; // Captura o ID dos parâmetros da rota
 
         try {
             const servico = await Servico.findById(id); // Busca o serviço pelo ID
             if (!servico) {
+                console.log("nao achou" + " " + id)
                 return res.status(404).json({ msg: "Serviço não encontrado" });
             }
+            console.log(servico);
             res.status(200).json({ msg: "Serviço encontrado", servico });
         } catch (error) {
             console.log(error);
