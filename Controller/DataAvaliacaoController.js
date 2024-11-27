@@ -28,7 +28,7 @@ class DataAvaliacaoController {
             const resp = await novaAvaliacao.save();
             res.status(201).json({ msg: 'Avaliação criada com sucesso', resp });
         } catch (error)  {
-            return res.status(500).json({ msg: 'Erro no servidor', error: error.message });
+            return res.status(500).json({ msg: 'Erro no servidor ao criar a avaliação', error: error.message });
         }  
     }
 
