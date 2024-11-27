@@ -9,7 +9,7 @@ const User = mongoose.model('User',{
     gender: {type:String, default:null},
     telephone: {type:String, default:null},
     adress: {type:String, default:null},
-    date_of_birth: {type:String, default:null},
+    date_of_birth: {type:Date, default:null},
 })
 
 module.exports = User;
