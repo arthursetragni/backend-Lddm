@@ -10,10 +10,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const RegisterController = require('./Controller/RegisterController');
 const LoginController = require('./Controller/LoginController');
+const DataAvaliacaoController = require('./Controller/DataAvaliacaoController');
 const ServicoController = require('./Controller/ServicoController');
 
 const port = process.env.PORT || 3000
-
 
 const app = express();
 
@@ -26,6 +26,13 @@ app.use(express.json());
 const User = require('./models/User');
 const UserController = require('./Controller/UserController');
 const DataController = require('./Controller/DataController');
+const Avaliacao = require('./models/Avaliacao');
+
+//avaliacao
+app.post('/avaliacao', DataAvaliacaoController.createAvaliacao);
+app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as avaliacoes
+app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
+app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
 
 // Public route
 app.get('/', (req, res) => {
