@@ -70,6 +70,37 @@ class DataAvaliacaoController {
             return res.status(500).json({ msg: 'Erro no servidor', error: error.message });
         }
     }
+
+    static async buscarAvaliacoes(req, res){
+        const avaliacoes = await Avaliacao.find({});
+        if (!avaliacoes) {
+            return res.status(404).json({ msg: "Nenhuma avaliação encontrada" });
+        }
+
+        try {
+            res.status(200).json({msg: "Lista de avaliações encontradas", avaliacoes})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Ocorreu um erro no servidor' });
+        }
+    }
+
+    static async buscaAvaliacaoID(req, res) {
+        const  id  = req.params.id; // Captura o ID dos parâmetros da rota
+
+        try {
+            const avaliacao = await Avaliacao.findById(id); // Busca o serviço pelo ID
+            if (!avaliacao) {
+                console.log("Não encontrada" + " " + id)
+                return res.status(404).json({ msg: "Avaliação não encontrada" });
+            }
+            console.log(avaliacao);
+            res.status(200).json({ msg: "Avaliação encontrada", avaliacao});
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Ocorreu um erro no servidor.' });
+        }
+    }
 }
 
 module.exports = DataController;
