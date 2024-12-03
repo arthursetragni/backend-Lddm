@@ -11,6 +11,9 @@ const jwt = require('jsonwebtoken');
 const RegisterController = require('./Controller/RegisterController');
 const LoginController = require('./Controller/LoginController');
 const DataAvaliacaoController = require('./Controller/DataAvaliacaoController');
+const ServicoController = require('./Controller/ServicoController');
+
+const port = process.env.PORT || 3000
 
 const app = express();
 
@@ -36,6 +39,10 @@ app.get('/', (req, res) => {
   res.status(200).json({ msg: "Bem-vindo à API" });
   console.log("Bem-vindo à API");
 });
+
+app.post('/servico', ServicoController.criaServico);
+app.get('/servico', ServicoController.pegaServicos);
+app.get('/servico/:id', ServicoController.pegaServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
@@ -69,7 +76,15 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@backenddb.hyuim.mongodb.
     })
     .catch((err) => console.log(err));
 
-// Exporta o app para ser utilizado pelo Vercel
+
+// Porta do servidor
+const PORT = process.env.PORT || 3000; 
+
+// Inicia o servidor localmente
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
+
 module.exports = app;
 
 

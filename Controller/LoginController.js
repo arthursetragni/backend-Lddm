@@ -35,7 +35,7 @@ class LoginController{
             },
             secret);
     
-            res.status(200).json({msg: "Autenticação realizada com sucesso", token})
+            res.status(200).json({msg: "Autenticação realizada com sucesso", token,user})
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: 'Ocorreu um erro no servidor' });
