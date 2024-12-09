@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
 app.post('/servico', ServicoController.criaServico);
 app.get('/servico', ServicoController.pegaServicos);
 app.get('/servico/:id', ServicoController.pegaServico);
+app.post('/servico/inscrever', ServicoController.atualizaServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
