@@ -92,6 +92,31 @@ class ServicoController{
             res.status(500).json({ msg: "Ocorreu um erro no servidor." });
         }
     }  
+
+    //buscar serviços por nome da categoria
+    static async buscarServicoPorNomeCategoria(req, res) {
+        const { nomeCategoria } = req.params;
+    
+        if (!nomeCategoria) {
+            return res.status(400).json({ msg: "Nome da categoria não informado." });
+        }
+    
+        try {
+            // Busca os serviços com a categoria especificada
+            const servicos = await Servico.find({ categoria: nomeCategoria });
+    
+            if (servicos.length === 0) {
+                return res.status(404).json({ msg: "Nenhum serviço encontrado para esta categoria." });
+            }
+    
+            // Retorna os serviços encontrados
+            res.status(200).json({ msg: "Serviços encontrados", servicos });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro no servidor." });
+        }
+    }
+    
     //não testado ainda
     static async buscaServicoPorTexto(req, res) {
         const { texto } = req.query;
@@ -113,7 +138,7 @@ class ServicoController{
                 return res.status(404).json({ msg: "Nenhum serviço encontrado para o termo pesquisado." });
             }
     
-            // Retorna os serviços encontrados
+            // Retorna os serviços encontrados[]
             res.status(200).json({ msg: "Serviços encontrados", servicos });
         } catch (error) {
             console.log(error);
