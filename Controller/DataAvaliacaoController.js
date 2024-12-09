@@ -1,5 +1,4 @@
 const Avaliacao = require('../models/Avaliacao');
-const mongoose = require('mongoose');
 
 class DataAvaliacaoController {
 
@@ -26,6 +25,7 @@ class DataAvaliacaoController {
             });
 
             const resp = await novaAvaliacao.save();
+            console.log(novaAvaliacao.id);
             res.status(201).json({ msg: 'Avaliação criada com sucesso', resp });
         } catch (error)  {
             return res.status(500).json({ msg: 'Erro no servidor ao criar a avaliação', error: error.message });
@@ -101,6 +101,37 @@ class DataAvaliacaoController {
             res.status(500).json({ msg: 'Ocorreu um erro no servidor.' });
         }
     }
+
+    static async buscarAvaliacaoEspecifica(req, res) {
+        const { ID_Avaliador, ID_Avaliado, ID_Servico } = req.query;
+    
+        // Validações dos parâmetros obrigatórios
+        if (!ID_Avaliador || !ID_Avaliado || !ID_Servico) {
+            return res.status(400).json({ msg: "Os parâmetros ID_Avaliador, ID_Avaliado e ID_Servico são obrigatórios." });
+        }
+    
+        try {
+            // Busca uma avaliação com os critérios especificados
+            const avaliacao = await Avaliacao.findOne({
+                ID_Avaliador,
+                ID_Avaliado,
+                ID_Servico
+            });
+    
+            // Verifica se a avaliação foi encontrada
+            if (!avaliacao) {
+                return res.status(404).json({ msg: "Avaliação específica não encontrada." });
+            }
+    
+            // Retorna a avaliação encontrada
+            res.status(200).json({ msg: "Avaliação encontrada", avaliacao });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro no servidor.", error: error.message });
+        }
+    }
+    
+
 }
 
-module.exports = DataController;
+module.exports = DataAvaliacaoController;

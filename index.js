@@ -31,8 +31,8 @@ const Avaliacao = require('./models/Avaliacao');
 //avaliacao
 app.post('/avaliacao', DataAvaliacaoController.createAvaliacao);
 app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as avaliacoes
-app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
-app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
+//app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
+//app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
 
 // Public route
 app.get('/', (req, res) => {
