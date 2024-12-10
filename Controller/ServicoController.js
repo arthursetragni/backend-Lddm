@@ -130,6 +130,7 @@ class ServicoController{
             const servicos = await Servico.find({
                 $or: [
                     { descricao: { $regex: texto, $options: "i" } }, // Busca na descrição (case insensitive)
+                    { titulo : {$regex: texto, $options: "i"}},
                     // { autor: { $regex: texto, $options: "i" } }  seroia legal colocar autor, mas aí tem que buscar por id na tabela user
                 ]
             });

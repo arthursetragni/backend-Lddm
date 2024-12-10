@@ -28,21 +28,22 @@ const UserController = require('./Controller/UserController');
 const DataController = require('./Controller/DataController');
 const Avaliacao = require('./models/Avaliacao');
 
-//avaliacao
-app.post('/avaliacao', DataAvaliacaoController.createAvaliacao);
-app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as avaliacoes
-//app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
-//app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
-
 // Public route
 app.get('/', (req, res) => {
   res.status(200).json({ msg: "Bem-vindo à API" });
   console.log("Bem-vindo à API");
 });
 
+//avaliacao
+app.post('/avaliacao', DataAvaliacaoController.createAvaliacao);
+app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as avaliacoes
+//app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
+//app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
+
 app.post('/servico', ServicoController.criaServico);
 app.get('/servico', ServicoController.pegaServicos);
 app.get('/servico/:id', ServicoController.pegaServico);
+app.get('/servicos/busca', ServicoController.buscaServicoPorTexto);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
