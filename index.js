@@ -39,6 +39,7 @@ app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as aval
 app.put('/avaliacao/:id', DataAvaliacaoController.updateAvaliacaoById);
 app.get('/avaliacao/:id', DataAvaliacaoController.buscaAvaliacaoID);
 app.get('/avaliacao/especifica', DataAvaliacaoController.buscarAvaliacaoEspecifica);
+app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
 
 app.post('/servico', ServicoController.criaServico);
 app.get('/servico', ServicoController.pegaServicos);
