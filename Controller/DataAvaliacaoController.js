@@ -1,4 +1,6 @@
+
 const Avaliacao = require('../models/Avaliacao');
+const mongoose = require('mongoose');
 
 class DataAvaliacaoController {
 
@@ -71,14 +73,13 @@ class DataAvaliacaoController {
         }
     }
 
-    static async buscarAvaliacoes(req, res){
-        const avaliacoes = await Avaliacao.find({});
-        if (!avaliacoes) {
-            return res.status(404).json({ msg: "Nenhuma avaliação encontrada" });
-        }
-
+    static async buscarAvaliacoes(req, res) {
         try {
-            res.status(200).json({msg: "Lista de avaliações encontradas", avaliacoes})
+            const avaliacoes = await Avaliacao.find({});
+            if (!avaliacoes) {
+                return res.status(404).json({ msg: "Nenhuma avaliação encontrada" });
+            }
+            res.status(200).json({ msg: "Lista de avaliações encontradas", avaliacoes });
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: 'Ocorreu um erro no servidor' });
@@ -86,16 +87,20 @@ class DataAvaliacaoController {
     }
 
     static async buscaAvaliacaoID(req, res) {
-        const  id  = req.params.id; // Captura o ID dos parâmetros da rota
+        const id = req.params.id; // Captura o ID dos parâmetros da rota
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'ID inválido' });
+        }
 
         try {
-            const avaliacao = await Avaliacao.findById(id); // Busca o serviço pelo ID
+            const avaliacao = await Avaliacao.findById(id); // Busca a avaliação pelo ID
             if (!avaliacao) {
-                console.log("Não encontrada" + " " + id)
+                console.log("Não encontrada" + " " + id);
                 return res.status(404).json({ msg: "Avaliação não encontrada" });
             }
             console.log(avaliacao);
-            res.status(200).json({ msg: "Avaliação encontrada", avaliacao});
+            res.status(200).json({ msg: "Avaliação encontrada", avaliacao });
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: 'Ocorreu um erro no servidor.' });
@@ -104,12 +109,12 @@ class DataAvaliacaoController {
 
     static async buscarAvaliacaoEspecifica(req, res) {
         const { ID_Avaliador, ID_Avaliado, ID_Servico } = req.query;
-    
+
         // Validações dos parâmetros obrigatórios
         if (!ID_Avaliador || !ID_Avaliado || !ID_Servico) {
             return res.status(400).json({ msg: "Os parâmetros ID_Avaliador, ID_Avaliado e ID_Servico são obrigatórios." });
         }
-    
+
         try {
             // Busca uma avaliação com os critérios especificados
             const avaliacao = await Avaliacao.findOne({
@@ -117,12 +122,12 @@ class DataAvaliacaoController {
                 ID_Avaliado,
                 ID_Servico
             });
-    
+
             // Verifica se a avaliação foi encontrada
             if (!avaliacao) {
                 return res.status(404).json({ msg: "Avaliação específica não encontrada." });
             }
-    
+
             // Retorna a avaliação encontrada
             res.status(200).json({ msg: "Avaliação encontrada", avaliacao });
         } catch (error) {
@@ -130,8 +135,6 @@ class DataAvaliacaoController {
             res.status(500).json({ msg: "Ocorreu um erro no servidor.", error: error.message });
         }
     }
-    
-
 }
 
 module.exports = DataAvaliacaoController;

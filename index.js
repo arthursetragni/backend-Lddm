@@ -36,8 +36,9 @@ app.get('/', (req, res) => {
 //avaliacao
 app.post('/avaliacao', DataAvaliacaoController.createAvaliacao);
 app.get('/avaliacao', DataAvaliacaoController.buscarAvaliacoes); //todas as avaliacoes
-//app.get('/avaliacao/:id', DataAvaliacaoController.buscarAvaliacaoID);
-//app.delete('/avaliacao/:id', DataAvaliacaoController.deleteAvaliacaoById);
+app.put('/avaliacao/:id', DataAvaliacaoController.updateAvaliacaoById);
+app.get('/avaliacao/:id', DataAvaliacaoController.buscaAvaliacaoID);
+app.get('/avaliacao/especifica', DataAvaliacaoController.buscarAvaliacaoEspecifica);
 
 app.post('/servico', ServicoController.criaServico);
 app.get('/servico', ServicoController.pegaServicos);
@@ -87,5 +88,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
 
