@@ -70,19 +70,24 @@ class ServicoController{
         }
     }
     //não testado ainda
-    static async buscaServicoPorIdCategoria(req, res) {
-        const { idCategoria } = req.params;
+    static async buscaServicoPorNumeroCategoria(req, res) {
+        const { categoria } = req.query;
     
-        if (!idCategoria) {
-            return res.status(400).json({ msg: "ID da categoria não informado." });
+        if (!categoria) {
+            return res.status(400).json({ msg: "Categoria não informada." });
+        }
+    
+        // Verifica se a categoria fornecida é um número inteiro
+        if (isNaN(categoria) || Number(categoria) <= 0) {
+            return res.status(400).json({ msg: "Categoria inválida." });
         }
     
         try {
-            // Busca os serviços com a categoria especificada
-            const servicos = await Servico.find({ categoria: idCategoria });
+            // Realiza a busca pelos serviços da categoria fornecida
+            const servicos = await Servico.find({ categoria: Number(categoria) });
     
             if (servicos.length === 0) {
-                return res.status(404).json({ msg: "Nenhum serviço encontrado para esta categoria." });
+                return res.status(404).json({ msg: "Nenhum serviço encontrado para a categoria informada." });
             }
     
             // Retorna os serviços encontrados
@@ -91,7 +96,8 @@ class ServicoController{
             console.log(error);
             res.status(500).json({ msg: "Ocorreu um erro no servidor." });
         }
-    }  
+    }
+    
 
     //buscar serviços por nome da categoria
     static async buscarServicoPorNomeCategoria(req, res) {

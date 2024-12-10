@@ -1,4 +1,3 @@
-
 console.log("Iniciando o servidor...");
 
 const cors = require('cors');
@@ -44,6 +43,7 @@ app.post('/servico', ServicoController.criaServico);
 app.get('/servico', ServicoController.pegaServicos);
 app.get('/servico/:id', ServicoController.pegaServico);
 app.get('/servicos/busca', ServicoController.buscaServicoPorTexto);
+app.get('/servicos/categoria', ServicoController.buscaServicoPorNumeroCategoria);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
