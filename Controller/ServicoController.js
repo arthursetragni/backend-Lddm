@@ -17,7 +17,6 @@ class ServicoController{
             id_executor 
         } = req.body;
 
-
         const servico = new Servico({
             titulo,
             descricao,
@@ -60,10 +59,12 @@ class ServicoController{
 
     static async pegaServico(req, res) {
         const  id  = req.params.id; // Captura o ID dos parâmetros da rota
+        const  id  = req.params.id; // Captura o ID dos parâmetros da rota
 
         try {
             const servico = await Servico.findById(id); // Busca o serviço pelo ID
             if (!servico) {
+                console.log("nao achou" + " " + id)
                 console.log("nao achou" + " " + id)
                 return res.status(404).json({ msg: "Serviço não encontrado" });
             }
@@ -103,6 +104,117 @@ class ServicoController{
             res.status(500).json({ msg: 'Ocorreu um erro no servidor.' });
         }
     }
+    //não testado ainda
+    static async buscaServicoPorNumeroCategoria(req, res) {
+        const { categoria } = req.query;
+    
+        if (!categoria) {
+            return res.status(400).json({ msg: "Categoria não informada." });
+        }
+    
+        // Verifica se a categoria fornecida é um número inteiro
+        if (isNaN(categoria) || Number(categoria) <= 0) {
+            return res.status(400).json({ msg: "Categoria inválida." });
+        }
+    
+        try {
+            // Realiza a busca pelos serviços da categoria fornecida
+            const servicos = await Servico.find({ categoria: Number(categoria) });
+    
+            if (servicos.length === 0) {
+                return res.status(404).json({ msg: "Nenhum serviço encontrado para a categoria informada." });
+            }
+    
+            // Retorna os serviços encontrados
+            res.status(200).json({ msg: "Serviços encontrados", servicos });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro no servidor." });
+        }
+    }
+    
+
+    //buscar serviços por nome da categoria
+    static async buscarServicoPorNomeCategoria(req, res) {
+        const { nomeCategoria } = req.params;
+    
+        if (!nomeCategoria) {
+            return res.status(400).json({ msg: "Nome da categoria não informado." });
+        }
+    
+        try {
+            // Busca os serviços com a categoria especificada
+            const servicos = await Servico.find({ categoria: nomeCategoria });
+    
+            if (servicos.length === 0) {
+                return res.status(404).json({ msg: "Nenhum serviço encontrado para esta categoria." });
+            }
+    
+            // Retorna os serviços encontrados
+            res.status(200).json({ msg: "Serviços encontrados", servicos });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro no servidor." });
+        }
+    }
+    
+    //não testado ainda
+    static async buscaServicoPorTexto(req, res) {
+        const { texto } = req.query;
+    
+        if (!texto) {
+            return res.status(400).json({ msg: "Texto de busca não informado." });
+        }
+    
+        try {
+            // Realiza a busca utilizando expressões regulares
+            const servicos = await Servico.find({
+                $or: [
+                    { descricao: { $regex: texto, $options: "i" } }, // Busca na descrição (case insensitive)
+                    { titulo : {$regex: texto, $options: "i"}},
+                    // { autor: { $regex: texto, $options: "i" } }  seroia legal colocar autor, mas aí tem que buscar por id na tabela user
+                ]
+            });
+    
+            if (servicos.length === 0) {
+                return res.status(404).json({ msg: "Nenhum serviço encontrado para o termo pesquisado." });
+            }
+    
+            // Retorna os serviços encontrados[]
+            res.status(200).json({ msg: "Serviços encontrados", servicos });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro no servidor." });
+        }
+    }
+    static async atualizarTipoServico(req, res) {
+        const id = req.params.id; // Captura o ID do serviço da URL
+        const { tipo } = req.body; // Captura o campo 'tipo' do corpo da requisição
+    
+        if (!tipo) {
+            return res.status(400).json({ msg: "O tipo do serviço não foi informado." });
+        }
+    
+        try {
+            // Atualiza apenas o campo 'tipo' do serviço especificado
+            const servicoAtualizado = await Servico.findByIdAndUpdate(
+                id,
+                { tipo },
+                { new: true } // Retorna o documento atualizado
+            );
+    
+            if (!servicoAtualizado) {
+                return res.status(404).json({ msg: "Serviço não encontrado." });
+            }
+    
+            res.status(200).json({ msg: "Tipo do serviço atualizado com sucesso.", servico: servicoAtualizado });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro ao atualizar o serviço." });
+        }
+    }
+    
+    
 }
 
 module.exports = ServicoController;
