@@ -59,7 +59,6 @@ class ServicoController{
 
     static async pegaServico(req, res) {
         const  id  = req.params.id; // Captura o ID dos parâmetros da rota
-        const  id  = req.params.id; // Captura o ID dos parâmetros da rota
 
         try {
             const servico = await Servico.findById(id); // Busca o serviço pelo ID
