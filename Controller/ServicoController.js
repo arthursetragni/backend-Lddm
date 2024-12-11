@@ -152,6 +152,33 @@ class ServicoController{
             res.status(500).json({ msg: "Ocorreu um erro no servidor." });
         }
     }
+    static async atualizarTipoServico(req, res) {
+        const id = req.params.id; // Captura o ID do serviço da URL
+        const { tipo } = req.body; // Captura o campo 'tipo' do corpo da requisição
+    
+        if (!tipo) {
+            return res.status(400).json({ msg: "O tipo do serviço não foi informado." });
+        }
+    
+        try {
+            // Atualiza apenas o campo 'tipo' do serviço especificado
+            const servicoAtualizado = await Servico.findByIdAndUpdate(
+                id,
+                { tipo },
+                { new: true } // Retorna o documento atualizado
+            );
+    
+            if (!servicoAtualizado) {
+                return res.status(404).json({ msg: "Serviço não encontrado." });
+            }
+    
+            res.status(200).json({ msg: "Tipo do serviço atualizado com sucesso.", servico: servicoAtualizado });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Ocorreu um erro ao atualizar o serviço." });
+        }
+    }
+    
     
 }
 

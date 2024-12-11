@@ -46,6 +46,7 @@ app.get('/servico', ServicoController.pegaServicos);
 app.get('/servico/:id', ServicoController.pegaServico);
 app.get('/servicos/busca', ServicoController.buscaServicoPorTexto);
 app.get('/servicos/categoria', ServicoController.buscaServicoPorNumeroCategoria);
+app.patch('/servico/:id', ServicoController.atualizarTipoServico);
 
 // Rotas de autenticação
 app.post('/auth/register', RegisterController.registerUser);
